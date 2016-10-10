@@ -1,5 +1,5 @@
 description = "B1 Xapp Framework http connection";
-host = "hanab1";
+host = "localhost";
 port = 8000;
 authType = basic;
 useSSL = false;

@@ -1,5 +1,5 @@
 description = "B1 Assistant SL http connection";
-host = "hanab1";
+host = "localhost";
 port = 50001;
 authType = none;
 useSSL = false;
