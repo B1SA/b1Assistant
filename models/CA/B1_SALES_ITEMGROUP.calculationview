@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" schemaVersion="2.3" id="B1_SALES_ITEMGROUP" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="reportingEnabled" calculationScenarioType="SCRIPT_BASED" dataCategory="CUBE" enforceSqlExecution="false" executionSemantic="UNDEFINED" scriptParametersCaseSensitive="true">
+  <descriptions defaultDescription="B1_SALES_ITEMGROUP"/>
+  <localVariables/>
+  <variableMappings/>
+  <informationModelLayout relativeWidthScenario="27"/>
+  <dataSources/>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+      <descriptions/>
+      <viewAttributes>
+        <viewAttribute datatype="NVARCHAR" id="ITEMGROUP" length="20"/>
+        <viewAttribute datatype="NVARCHAR" id="ChkName" length="20"/>
+        <viewAttribute id="DUE_QUARTER" datatype="NVARCHAR" length="2"/>
+        <viewAttribute id="DUE_YEAR" datatype="NVARCHAR" length="4"/>
+        <viewAttribute datatype="DECIMAL" id="SumLineTotal" length="21" scale="2"/>
+        <viewAttribute datatype="DECIMAL" id="SumGrssProfit" length="21" scale="2"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <definition>/********* Begin Procedure Script ************/ 
+BEGIN 
+
+   var_out = 
+    SELECT  &quot;ITEMGROUP&quot;, &quot;ChkName&quot;, &quot;DUE_QUARTER&quot;, &quot;DUE_YEAR&quot;,
+            SUM(&quot;LineTotal&quot;) AS &quot;SumLineTotal&quot;, 
+            SUM(&quot;GrssProfit&quot;) AS &quot;SumGrssProfit&quot;
+    FROM &quot;_SYS_BIC&quot;.&quot;b1Assistant.models/B1_AN_SALES_DETAILS&quot; 
+    GROUP BY &quot;ITEMGROUP&quot;, &quot;ChkName&quot;, &quot;DUE_QUARTER&quot;, &quot;DUE_YEAR&quot;
+    ORDER BY &quot;ITEMGROUP&quot; ASC, &quot;ChkName&quot; ASC, &quot;DUE_QUARTER&quot; ASC;
+
+END /********* End Procedure Script ************/</definition>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Script_View">
+    <descriptions/>
+    <attributes>
+      <attribute id="ITEMGROUP" order="1" key="true">
+        <descriptions defaultDescription="ITEMGROUP"/>
+        <keyMapping columnObjectName="Script_View" columnName="ITEMGROUP"/>
+      </attribute>
+      <attribute id="ChkName" order="2">
+        <descriptions defaultDescription="ChkName"/>
+        <keyMapping columnObjectName="Script_View" columnName="ChkName"/>
+      </attribute>
+      <attribute id="DUE_QUARTER" order="3">
+        <descriptions defaultDescription="ChkName"/>
+        <keyMapping columnObjectName="Script_View" columnName="DUE_QUARTER"/>
+      </attribute>
+      <attribute id="DUE_YEAR" order="4">
+        <descriptions defaultDescription="ChkName"/>
+        <keyMapping columnObjectName="Script_View" columnName="DUE_YEAR"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <privateDataFoundation>
+      <tableProxies/>
+      <joins/>
+      <layout>
+        <shapes/>
+      </layout>
+    </privateDataFoundation>
+    <baseMeasures>
+      <measure id="SumLineTotal" order="5" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="LineTotal"/>
+        <measureMapping columnObjectName="Script_View" columnName="SumLineTotal"/>
+      </measure>
+      <measure id="SumGrssProfit" order="6" aggregationType="sum" measureType="simple">
+        <descriptions defaultDescription="GrssProfit"/>
+        <measureMapping columnObjectName="Script_View" columnName="SumGrssProfit"/>
+      </measure>
+    </baseMeasures>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+    <localDimensions/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="40" y="85"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

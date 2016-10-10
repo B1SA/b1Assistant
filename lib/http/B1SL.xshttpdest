@@ -1,0 +1,6 @@
+description = "B1 Assistant SL http connection";
+host = "hanab1";
+port = 50001;
+authType = none;
+useSSL = false;
+timeout = 0;
