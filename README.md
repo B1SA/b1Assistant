@@ -1,4 +1,5 @@
-# B1 Assistant - SAP Business one with Amazon Echo integration
+# B1 Assistant - SAP Business One skill for Alexa
+Detailed how to - http://bit.ly/2dGJv9d
 
 # Prerequisites
 - SAP Business One on HANA 9.2 PL04 (or higher)
