@@ -211,7 +211,7 @@ function getSalesGroups(intent, session, callback) {
             console.log("response is "+ response)
             response = response.d;
 
-            if(response.ITEMGROUP){
+            if(response.ITEMGROUP && response !== undefined){
                 speechOutput =  "Currently, our " + response.ITEMGROUP +
                             " sales are on " + response.SumLineTotal + " " + 
                             response.ChkName
@@ -381,7 +381,7 @@ function getSalesInfo(intent, session, callback) {
                 console.log("response is "+ response);
                 response = response.d.results;
                 
-                if(response.length ==0){
+                if(response.length ==0 || response == undefined){
                     speechOutput = "I am sorry, but there are no "+ItemGroup+ 
                     " sales in the " + SalesQuarter + " quarter of " + SalesYear;
                     
