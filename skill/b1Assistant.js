@@ -13,11 +13,7 @@
 // Route the incoming request based on type (LaunchRequest, IntentRequest,
 // etc.) The JSON body of the request is provided in the event parameter.
 
-var g_hdbServer = '34.203.99.100'; //Production Server (pl07)
-//var g_hdbServer = '54.233.119.24'; //Production Server (pl04)
-//var g_hdbServer = '52.67.35.51'; //Old Alexa Server (pl04)
-//var g_hdbServer = '52.67.110.33'; //Bkp Server (pl03)
-//var g_hdbServer = '52.59.224.238'; //Frankfurt Server (pl04)
+var g_hdbServer = '<YOUR IP HERE>';
 var g_hdbPort  = 8000; 
 var g_hdbService = '/b1Assistant/services';
 var g_currFinPeriod = null;
