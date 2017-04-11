@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="B1TweetSentiments" applyPrivilegeType="ANALYTIC_PRIVILEGE" dataCategory="CUBE" dimensionType="STANDARD" schemaVersion="2.3" defaultClient="$$client$$" visibility="reportingEnabled" calculationScenarioType="SCRIPT_BASED" scriptParametersCaseSensitive="true" enforceSqlExecution="false">
+<descriptions defaultDescription="B1TweetSentiments"/>
+<localVariables/>
+<variableMappings/>
+<dataSources/>
+<calculationViews>
+  <calculationView xsi:type="Calculation:SqlScriptView" id="Script_View">
+    <viewAttributes>
+      <viewAttribute id="Id" datatype="NVARCHAR" length="20"/>
+      <viewAttribute id="TA_RULE" datatype="NVARCHAR" length="200"/>
+      <viewAttribute id="TA_COUNTER" datatype="BIGINT"/>
+      <viewAttribute id="TA_TOKEN" datatype="NVARCHAR" length="5000"/>
+      <viewAttribute id="TA_TYPE" datatype="NVARCHAR" length="100"/>
+      <viewAttribute id="TA_SENTENCE" datatype="INTEGER"/>
+      <viewAttribute id="UserName" datatype="NVARCHAR" length="100"/>
+      <viewAttribute id="Text" datatype="NVARCHAR" length="340"/>
+      <viewAttribute id="Language" datatype="NVARCHAR" length="3"/>
+      <viewAttribute id="Location" datatype="NVARCHAR" length="100"/>
+      <viewAttribute id="CreateAt" datatype="DATE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <definition>/********* Begin Procedure Script ************/ 
+BEGIN 
+   var_out = 
+   SELECT 
+    T0.&quot;Id&quot;,
+	T1.&quot;TA_RULE&quot;,
+	T1.&quot;TA_COUNTER&quot;,
+	T1.&quot;TA_TOKEN&quot;,
+	T1.&quot;TA_TYPE&quot;,
+	T1.&quot;TA_SENTENCE&quot;,
+	T0.&quot;UserName&quot;,
+	T0.&quot;Text&quot;,
+	T0.&quot;Language&quot;,
+	T0.&quot;Location&quot;,
+	T0.&quot;CreateAt&quot;
+FROM &quot;SUMMIT2015&quot;.&quot;Summit15.data::alexatweets&quot; T0
+INNER JOIN 
+&quot;SUMMIT2015&quot;.&quot;$TA_ALEXAB1TWEETS&quot; T1
+ON T0.&quot;Id&quot; = T1.&quot;Id&quot;
+ORDER BY T0.&quot;CreateAt&quot; DESC; 
+
+END /********* End Procedure Script ************/</definition>
+  </calculationView>
+</calculationViews>
+<logicalModel id="Script_View">
+  <attributes>
+    <attribute id="Id" order="1">
+      <descriptions defaultDescription="Id"/>
+      <keyMapping columnObjectName="Script_View" columnName="Id"/>
+    </attribute>
+    <attribute id="TA_RULE" order="2">
+      <descriptions defaultDescription="TA_RULE"/>
+      <keyMapping columnObjectName="Script_View" columnName="TA_RULE"/>
+    </attribute>
+    <attribute id="TA_TOKEN" order="4">
+      <descriptions defaultDescription="TA_TOKEN"/>
+      <keyMapping columnObjectName="Script_View" columnName="TA_TOKEN"/>
+    </attribute>
+    <attribute id="TA_TYPE" order="5">
+      <descriptions defaultDescription="TA_TYPE"/>
+      <keyMapping columnObjectName="Script_View" columnName="TA_TYPE"/>
+    </attribute>
+    <attribute id="UserName" order="7">
+      <descriptions defaultDescription="UserName"/>
+      <keyMapping columnObjectName="Script_View" columnName="UserName"/>
+    </attribute>
+    <attribute id="Text" order="8">
+      <descriptions defaultDescription="Text"/>
+      <keyMapping columnObjectName="Script_View" columnName="Text"/>
+    </attribute>
+    <attribute id="Language" order="9">
+      <descriptions defaultDescription="Language"/>
+      <keyMapping columnObjectName="Script_View" columnName="Language"/>
+    </attribute>
+    <attribute id="Location" order="10">
+      <descriptions defaultDescription="Location"/>
+      <keyMapping columnObjectName="Script_View" columnName="Location"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="TA_COUNTER" order="3" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="TA_COUNTER"/>
+      <measureMapping columnObjectName="Script_View" columnName="TA_COUNTER"/>
+    </measure>
+    <measure id="TA_SENTENCE" order="6" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="TA_SENTENCE"/>
+      <measureMapping columnObjectName="Script_View" columnName="TA_SENTENCE"/>
+    </measure>
+    <measure id="CreateAt" order="11" aggregationType="min" measureType="simple">
+      <descriptions defaultDescription="CreateAt"/>
+      <measureMapping columnObjectName="Script_View" columnName="CreateAt"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

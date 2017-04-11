@@ -108,7 +108,6 @@ function getSalesRecom(cust,item){
     setOutputMessage("Recommendation done!");
 }
 
-
 function createSO(item, qty, item2){
     
     //Debug data

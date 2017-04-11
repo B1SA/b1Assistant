@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Dimension:dimension xmlns:Dimension="http://www.sap.com/ndb/BiModelDimension.ecore" schemaVersion="1.2" id="B1_AT_CURRENCY" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" dimensionType="Standard">
+<Dimension:dimension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:AccessControl="http://www.sap.com/ndb/SQLCoreModelAccessControl.ecore" xmlns:Dimension="http://www.sap.com/ndb/BiModelDimension.ecore" schemaVersion="1.2" id="B1_AT_CURRENCY" applyPrivilegeType="ANALYTIC_PRIVILEGE" checkAnalyticPrivileges="true" defaultClient="$$client$$" defaultLanguage="$$language$$" hierarchiesSQLEnabled="false" translationRelevant="true" visibility="internal" dimensionType="Standard">
   <origin/>
   <descriptions defaultDescription="Items"/>
   <informationModelLayout relativeWidthScenario="27"/>
@@ -42,6 +42,9 @@
     <tableProxies>
       <tableProxy>
         <table schemaName="SBODEMOUS" columnObjectName="OCRN"/>
+        <columnFilter columnName="CurrCode">
+          <valueFilter xsi:type="AccessControl:SingleValueFilter" including="true" value="$"/>
+        </columnFilter>
       </tableProxy>
     </tableProxies>
     <joins/>

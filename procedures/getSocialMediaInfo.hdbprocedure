@@ -1,0 +1,64 @@
+/*************************************
+getSalesInfo: Return the sales info(NetSalesAmountLC,GrossProfitLC) for
+-How many tweets about the hashtag with the given time frame.
+-How many tweets with Postive sentiments,
+-How many tweets with Strong Postive sentiments
+-How many tweets with Strong Negative Sentiments
+-last quarter or last month: used to calculate the Quarter-over-Qarter or Month-Over-Month sales growth rate.
+
+Author: Yatsea Li
+Created on: Mar 23 2017
+Company: SAP SE
+License: SCN AS-IS. No official Support from SAP
+*************************************/
+PROCEDURE "SBODEMOUS"."b1Assistant.procedures::getSocialMediaInfo"()
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY INVOKER
+   --DEFAULT SCHEMA <default_schema_name>
+   READS SQL DATA AS
+BEGIN
+   /*************************************
+       Write your procedure logic 
+   *************************************/
+--Important: Use SUBSTR(TO_VARCHAR("TA_CREATED_AT", 'YYYY-MM-DD'),6,2) to the month of the date instead of
+--MONTH("TA_CREATED_AT") in the WHERE clause. It is a bug in SP11, which leads to error:
+--(dberror) 2048 - column store error: search table error: [6861] Error during compiling regular expression
+
+--Total Count of tweet
+SELECT COUNT("Id") AS "TweetTotalCount"
+FROM "SUMMIT2015"."Summit15.data::alexatweets"
+WHERE SUBSTR(TO_VARCHAR("CreateAt", 'YYYY-MM-DD'),6,2) = SUBSTR(TO_VARCHAR(CURRENT_DATE, 'YYYY-MM-DD'),6,2);
+
+--Tweet Count with Sentiment
+SELECT COUNT(DISTINCT "Id") AS "TweetCountWithSentiment" 
+FROM "SUMMIT2015"."$TA_ALEXAB1TWEETS"
+WHERE SUBSTR(TO_VARCHAR("TA_CREATED_AT", 'YYYY-MM-DD'),6,2) = SUBSTR(TO_VARCHAR(CURRENT_DATE, 'YYYY-MM-DD'),6,2) and
+"TA_TYPE" in('WeakPositiveSentiment','StrongPositiveSentiment','NeutralSentiment', 
+'WeakNegativeSentiment','StrongNegativeSentiment','MajorProblem','MinorProblem');
+
+--Positive tweet count
+SELECT COUNT(DISTINCT "Id") AS "PositiveTweetCount" 
+FROM "SUMMIT2015"."$TA_ALEXAB1TWEETS"
+WHERE SUBSTR(TO_VARCHAR("TA_CREATED_AT", 'YYYY-MM-DD'),6,2) = SUBSTR(TO_VARCHAR(CURRENT_DATE, 'YYYY-MM-DD'),6,2) and 
+"TA_TYPE" in('WeakPositiveSentiment','StrongPositiveSentiment');
+
+--NegativeTweetCount Tweet Count
+SELECT COUNT(DISTINCT "Id") AS "NegativeTweetCount" 
+FROM "SUMMIT2015"."$TA_ALEXAB1TWEETS"
+WHERE SUBSTR(TO_VARCHAR("TA_CREATED_AT", 'YYYY-MM-DD'),6,2) = SUBSTR(TO_VARCHAR(CURRENT_DATE, 'YYYY-MM-DD'),6,2) and 
+"TA_TYPE" in('WeakNegativeSentiment','StrongNegativeSentiment','MajorProblem','MinorProblem');
+
+--Tweet Count about Problems.
+--e.g. there is a desing flaw in the product #DemoXYZ
+SELECT COUNT(DISTINCT "Id") AS "TweetCountWithProblem" 
+FROM "SUMMIT2015"."$TA_ALEXAB1TWEETS"
+WHERE SUBSTR(TO_VARCHAR("TA_CREATED_AT", 'YYYY-MM-DD'),6,2) = SUBSTR(TO_VARCHAR(CURRENT_DATE, 'YYYY-MM-DD'),6,2) and 
+"TA_TYPE" in('MajorProblem','MinorProblem');
+
+SELECT "TA_TYPE", COUNT("Id") AS "SentimentCount" 
+FROM "SUMMIT2015"."$TA_ALEXAB1TWEETS"
+WHERE SUBSTR(TO_VARCHAR("TA_CREATED_AT", 'YYYY-MM-DD'),6,2) = SUBSTR(TO_VARCHAR(CURRENT_DATE, 'YYYY-MM-DD'),6,2) and 
+TA_TYPE in('WeakPositiveSentiment','StrongPositiveSentiment','NeutralSentiment', 
+'WeakNegativeSentiment','StrongNegativeSentiment','MajorProblem','MinorProblem')
+GROUP BY "TA_TYPE";
+END

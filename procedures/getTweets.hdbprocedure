@@ -1,0 +1,41 @@
+/*************************************
+getSalesInfo: Return the sales info(NetSalesAmountLC,GrossProfitLC) for
+
+
+Author: Yatsea Li
+Created on: Mar 23 2017
+Company: SAP SE
+*************************************/
+PROCEDURE "SBODEMOUS"."b1Assistant.procedures::getTweets"(
+    IN P_TA_Type varchar(30),
+    IN P_User varchar(50)
+)
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY INVOKER
+   --DEFAULT SCHEMA <default_schema_name>
+   READS SQL DATA AS
+BEGIN
+   /*************************************
+       Write your procedure logic 
+   *************************************/
+SELECT 
+    T0."Id",
+	T1."TA_RULE",
+	T1."TA_COUNTER",
+	T1."TA_TOKEN",
+	T1."TA_TYPE",
+	T1."TA_SENTENCE",
+	T0."UserName",
+	T0."Text",
+	T0."Language",
+	T0."Location",
+	T0."CreateAt"
+FROM "SUMMIT2015"."Summit15.data::sapb1tweets" T0
+INNER JOIN 
+"SUMMIT2015"."$TA_SAPB1TWEETS" T1
+ON T0."Id" = T1."Id"
+WHERE "TA_TYPE" = :P_TA_Type
+AND (IFNULL(:P_User, '') ='' OR T0."UserName" = :P_User)
+ORDER BY T0."CreateAt" DESC;
+
+END

@@ -1,0 +1,24 @@
+service {
+ 	"SUMMIT2015"."$TA_SAPB1TWEETS" as "TweetAnalysisQuery" 
+ 	keys generate local "UID";
+ 	
+    "SUMMIT2015"."Summit15.data::sapb1tweets" as "Tweets" 
+    with("Id","UserName","Text","Language","CreateAt")
+    navigates("Tweet_Sentimnets" as "Sentiments") 
+    create forbidden
+    update forbidden
+    delete forbidden;
+    
+    "SUMMIT2015"."$TA_SAPB1TWEETS" as "TweetSentiments"
+    with("Id", "TA_RULE","TA_COUNTER","TA_TOKEN","TA_TYPE","TA_SENTENCE", "TA_CREATED_AT")
+    create forbidden
+    update forbidden
+    delete forbidden;
+    
+    association "Tweet_Sentimnets" 
+    principal "Tweets"("Id") 
+    multiplicity "1" dependent "TweetSentiments"("Id") multiplicity "*";
+
+    "_SYS_BIC"."b1Assistant.models.CA/B1TweetSentiments" as "B1TweetSentiments"
+    keys generate local "UID";
+ } 
