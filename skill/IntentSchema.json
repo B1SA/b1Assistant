@@ -1,24 +1,6 @@
 {
   "intents": [
     {
-      "intent": "Test"
-    },
-    {
-      "intent": "BusinessInfo"
-    },
-    {
-      "intent": "SocialMediaInfo"
-    },
-    {
-      "slots": [
-        {
-          "name": "Sentiments",
-          "type": "SAP_SENTIMENTS"
-        }
-      ],
-      "intent": "ReadTweets"
-    },
-    {
       "slots": [
         {
           "name": "SalesQuarter",
@@ -106,6 +88,21 @@
     },
     {
       "intent": "AMAZON.StopIntent"
+    },
+ {
+      "intent": "BusinessInfo"
+    },
+    {
+      "intent": "SocialMediaInfo"
+    },
+    {
+      "slots": [
+        {
+          "name": "Sentiments",
+          "type": "SAP_SENTIMENTS"
+        }
+      ],
+      "intent": "ReadTweets"
     }
   ]
 }
