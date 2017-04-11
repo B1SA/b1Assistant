@@ -1,5 +1,0 @@
-{ 
-	"exposed" : true,
-	"authentication":null,
-	"anonymous_connection": "b1Assistant.lib::annonuser"
-}
