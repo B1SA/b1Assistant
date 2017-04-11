@@ -1,5 +1,62 @@
-Test test
-Test do a test
+GetSalesGroups how are the sales for {ItemGroup}
+GetSalesGroups show me the numbers for {ItemGroup}
+
+SayHello Say hi to {FirstName}
+SayHello Salute our friend {FirstName}
+
+MakePurchase I need office supplies
+MakePurchase get me office supplies
+MakePurchase buy me office supplies
+MakePurchase for office supplies
+MakePurchase I need to buy things
+MakePurchase I need to place an order
+MakePurchase {ItemName}
+MakePurchase buy me {ItemName}
+MakePurchase buy me {Quantity} unities of {ItemName}
+MakePurchase buy me {Quantity} unity of {ItemName}
+MakePurchase buy me {Quantity} packs of {ItemName}
+MakePurchase buy me {Quantity} pack of {ItemName}
+MakePurchase {Quantity} unities
+MakePurchase {Quantity} unity
+MakePurchase {Quantity} pack
+MakePurchase {Quantity} packs
+MakePurchase get me also {ItemRecom}
+MakePurchase {ItemRecom} will be nice
+MakePurchase you can add {ItemRecom} to this order
+MakePurchase {ItemRecom} and i am good
+
+SalesInfo give me sales info
+SalesInfo give me sales information
+SalesInfo give me sales reports
+SalesInfo give me the sales reports
+SalesInfo give me sales numbers
+SalesInfo give me the sales numbers
+SalesInfo get me sales info
+SalesInfo get me sales information
+SalesInfo get me sales reports
+SalesInfo get me the sales reports
+SalesInfo get me sales numbers
+SalesInfo get me the sales numbers
+SalesInfo I need sales info
+SalesInfo I need sales report
+SalesInfo I need the sales report
+SalesInfo I need sales numbers
+SalesInfo show me the sales report
+SalesInfo show me sales info
+SalesInfo show me sales information
+SalesInfo show me sales reports
+SalesInfo show me sales numbers
+SalesInfo {ItemGroup}
+SalesInfo {SalesQuarter}
+SalesInfo {SalesQuarter} of {SalesYear}
+SalesInfo {SalesQuarter} quarter of {SalesYear}
+SalesInfo {SalesYear}
+
+SaleRecommend What do you have for me
+SaleRecommend Do you got any item recommendation
+SaleRecommend Do you got any product recommendation
+SaleRecommend Do you got any purchase recommendation
+SaleRecommend what do you got for me
 
 BusinessInfo how is business
 BusinessInfo how is business going
@@ -63,6 +120,7 @@ SalesPipeline {SalesQuarter} quarter
 SalesPipeline {SalesQuarter} of {SalesYear}
 SalesPipeline {SalesQuarter} quarter of {SalesYear}
 SalesPipeline {SalesYear}
+
 GetTopItems what are my best selling products
 GetTopItems what are my best selling items
 GetTopItems what are my top items
@@ -73,61 +131,3 @@ GetTopItems get me top {TopNo} items
 GetTopItems give me top {TopNo} items
 GetTopItems Top {TopNo}
 GetTopItems Top {TopNo} items
-
-GetSalesGroups how are the sales for {ItemGroup}
-GetSalesGroups show me the numbers for {ItemGroup}
-SayHello Say hi to {FirstName}
-SayHello Salute our friend {FirstName}
-MakePurchase I need office supplies
-MakePurchase get me office supplies
-MakePurchase buy me office supplies
-MakePurchase for office supplies
-MakePurchase I need to buy things
-MakePurchase I need to place an order
-MakePurchase {ItemName}
-MakePurchase buy me {ItemName}
-MakePurchase buy me {Quantity} unities of {ItemName}
-MakePurchase buy me {Quantity} unity of {ItemName}
-MakePurchase buy me {Quantity} packs of {ItemName}
-MakePurchase buy me {Quantity} pack of {ItemName}
-MakePurchase {Quantity} unities
-MakePurchase {Quantity} unity
-MakePurchase {Quantity} pack
-MakePurchase {Quantity} packs
-MakePurchase get me also {ItemRecom}
-MakePurchase {ItemRecom} will be nice
-MakePurchase you can add {ItemRecom} to this order
-MakePurchase {ItemRecom} and i am good
-
-SalesInfo give me sales info
-SalesInfo give me sales information
-SalesInfo give me sales reports
-SalesInfo give me the sales reports
-SalesInfo give me sales numbers
-SalesInfo give me the sales numbers
-SalesInfo get me sales info
-SalesInfo get me sales information
-SalesInfo get me sales reports
-SalesInfo get me the sales reports
-SalesInfo get me sales numbers
-SalesInfo get me the sales numbers
-SalesInfo I need sales info
-SalesInfo I need sales report
-SalesInfo I need the sales report
-SalesInfo I need sales numbers
-SalesInfo show me the sales report
-SalesInfo show me sales info
-SalesInfo show me sales information
-SalesInfo show me sales reports
-SalesInfo show me sales numbers
-SalesInfo {ItemGroup}
-SalesInfo {SalesQuarter}
-SalesInfo {SalesQuarter} of {SalesYear}
-SalesInfo {SalesQuarter} quarter of {SalesYear}
-SalesInfo {SalesYear}
-
-SaleRecommend What do you have for me
-SaleRecommend Do you got any item recommendation
-SaleRecommend Do you got any product recommendation
-SaleRecommend Do you got any purchase recommendation
-SaleRecommend what do you got for me
