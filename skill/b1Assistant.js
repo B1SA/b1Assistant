@@ -1,14 +1,26 @@
 /**
  * This code implements an integration of SAP Business One on HANA with Amazon Alexa
- * Built By Ralph Oliveira - B1 Solution Architect - Twitter: @Ralphive
+ * 
+ * Athors: 
+ * Ralph Oliveira - B1 Solution Architect - Twitter: @Ralphive
+ * Yatsea Li - Solution Architect - Twitter: @YatseaLiAtSAP
+ * All rights resversed by SAP SE
+ * last mondifed on Mar 27 2017
+ * License: This is not an offiical solution from SAP. The code is published with SCN AS-IS license.
+ * You can download and modify this code by yourself. No SAP official support available.
  */
 
 // Route the incoming request based on type (LaunchRequest, IntentRequest,
 // etc.) The JSON body of the request is provided in the event parameter.
 
-var g_hdbServer = 'YOUR HANA IP Adress';
-var g_hdbPort  = 8000; // Http(8000) or Https(4300)  
+var g_hdbServer = '34.203.99.100'; //Production Server (pl07)
+//var g_hdbServer = '54.233.119.24'; //Production Server (pl04)
+//var g_hdbServer = '52.67.35.51'; //Old Alexa Server (pl04)
+//var g_hdbServer = '52.67.110.33'; //Bkp Server (pl03)
+//var g_hdbServer = '52.59.224.238'; //Frankfurt Server (pl04)
+var g_hdbPort  = 8000; 
 var g_hdbService = '/b1Assistant/services';
+var g_currFinPeriod = null;
 
 exports.handler = function (event, context) {
     try {
@@ -65,14 +77,13 @@ function onLaunch(launchRequest, session, callback) {
 
     // Dispatch to skill's launch.
     getWelcomeResponse(callback);
+    
 }
 
 /**
  * Called when the user specifies an intent for this skill.
  */
 function onIntent(intentRequest, session, callback) {
-   // console.log("onIntent requestId=" + intentRequest.requestId +
-     //   ", sessionId=" + session.sessionId);
 
     console.log(intentRequest);
     var intent = intentRequest.intent;
@@ -81,42 +92,66 @@ function onIntent(intentRequest, session, callback) {
     console.log('Itent RECEIVED is '+ intent.name);
     console.log('PREVIOUS intent was '+ intentName);
 
-        
     if ("AMAZON.StopIntent" === intent.name || 
         "AMAZON.CancelIntent" === intent.name) {
         handleSessionEndRequest(callback);
     }
     
-    
-        
     if(intentName === null){
         intentName = intent.name;
     }
 
-
     // Dispatch to your skill's intent handlers
     
     switch(intentName){
-    case "GetSalesGroups":
+    case "Test":
+        Test(intent, session, callback);
+		break;
+		
+    case "BusinessInfo":
+        getBusinessInfo(intent, session, callback);
+		break;
+		
+	case "SocialMediaInfo":
+        getSocialMediaInfo(intent, session, callback);
+		break;
+		
+	case "ReadTweets":
+        readTweets(intent, session, callback);
+		break;
+	
+	case "SalesPipeline":
+        getSalesPipelineInfo(intent, session, callback);
+		break;	
+	
+	case "GetTopItems":
+        getTopItems(intent, session, callback);
+		break;
+		
+	case "GetSalesGroups":
         getSalesGroups(intent, session, callback);
-        break;
-    
-    case "SayHello":
+		break;
+	
+	case "SayHello":
         sayHello(intent, session, callback);
-        break;
-    
-    case "SalesInfo":
+		break;
+	
+	case "SalesInfo":
         getSalesInfo(intent, session, callback);
-        break;
-    case "MakePurchase":
+		break;
+		
+	case "MakePurchase":
         postPurchase(intent, session, callback);
-        break;
-    case "SaleRecommend":
+		break;
+		
+	case "SaleRecommend":
         saleRecommend(intent, session, callback);
-        break;
-    case "AMAZON.HelpIntent":
+		break;
+		
+	case "AMAZON.HelpIntent":
         getWelcomeResponse(callback);
-        break;
+		break;
+		
     default:
         throw "Invalid intent";
     }
@@ -132,14 +167,17 @@ function onSessionEnded(sessionEndedRequest, session) {
     // Add cleanup logic here
 }
 
-
 // --------------- Functions that control the skill's behavior -----------------------
-
 function getWelcomeResponse(callback) {
     // If we wanted to initialize the session to have some attributes we could add those here.
+    if(null === g_currFinPeriod)
+    {
+        initB1PeriodByDate();
+    }
+    
     var sessionAttributes = {};
     var cardTitle = "Welcome";
-    var speechOutput = getWelcomeMessage();
+    var speechOutput = getWelcomeMessageAPJ();
         
     // If the user either does not reply to the welcome message or says something that is not
     // understood, they will be prompted again with this text.
@@ -152,7 +190,8 @@ function getWelcomeResponse(callback) {
 
 function handleSessionEndRequest(callback) {
     var cardTitle = "Session Ended";
-    var speechOutput = "Thank you for using B1 Assistant. Have a nice day!";
+    //var speechOutput = "Thank you for using B1 Assistant. Have a nice day!";
+    var speechOutput = "Okay.";
     
     // Setting this to true ends the session and exits the skill.
     var shouldEndSession = true;
@@ -163,36 +202,513 @@ function handleSessionEndRequest(callback) {
 /**
  * SAP HANA Interactions
  */
-
  function sayHello(intent, session, callback) {
     
     var cardTitle = intent.name;
-    var firstName = intent.slots.FirstName.value;
     var repromptText = "";
     var sessionAttributes = {};
     var shouldEndSession = true;
     var speechOutput = "";
     
-    var test = extractValue('FirstName', intent, session);
-
-    console.log("Say Hello to: "+ firstName);
-
-    if (firstName) {
-        speechOutput = "Hello my lord, "+ firstName+
-                        ". Brace yourself, winter is comming";
-        repromptText = "At last we will have our revenge.";
-    } else {
-        speechOutput = "Your name is so weird that I can't say it.";
-        repromptText = "Any other normal name?";
-    }
+    speechOutput = "Oh my god! What was that party last night? "+
+                "I still feel the headache, even though I do not have a head."
 
     callback(sessionAttributes,
          buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
 }
 
+function Test(intent, session, callback) {
+    
+    var cardTitle = intent.name;
+    var repromptText = "";
+    var sessionAttributes = {};
+    var shouldEndSession = true;
+    var speechOutput = "";
+    
+    var today = new Date();
+    //var period = initB1PeriodByDate(today);
+    //SalesQuarter = getCalendarQuarterStr(today);
+    //SalesYear = today.getFullYear();
+    //speechOutput = "Test result. Financial period code " + g_currFinPeriod.FinancialPeriodCode +
+    //" year " + g_currFinPeriod.FiscalYear;
+    //speechOutput = "#DemoXYZ sucks. The #DemoABC from competitor ABC is flawless. Tweeted by YatseaLiAtSAP on March 26 2017.";
+    speechOutput = "#iMiniServer. SallyGlass.";
+    
+    callback(sessionAttributes,
+         buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
+}
+
+function getBusinessInfo(intent, session, callback) {
+    
+    var cardTitle = intent.name;
+    var repromptText = "";
+    var sessionAttributes = {};
+    var shouldEndSession = true;
+    var speechOutput = "";
+
+    //Define Variables from Intent or from Session Attributes
+    console.log("INTENT RECEIVED");
+    console.log(JSON.stringify(intent));
+    console.log("SESSION RECEIVED");
+    console.log(JSON.stringify(session));
+    
+    restCall(    
+            "/getBusinessInfo.xsjs",  // Endpoint
+            "", //Filter
+        function (response) {
+            if(typeof(response.Error) !== 'undefined'){
+                    speechOutput = "I am sorry, but I am not able to retrieve the business information this time. Please try again later";
+                }else{
+
+                    var YoYSalesGrowthRate = response.CurrentPeriodResult.YoYSalesGrowthRate;
+                    var currNetSalesAmountLC = response.CurrentPeriodResult.NetSalesAmountLC + " "+ response.Currency;
+                    var currGrossProfitLC = response.CurrentPeriodResult.GrossProfitLC + " " + response.Currency;
+                    var currGrossMargin = formatPerc(response.CurrentPeriodResult.GrossMargin);
+                    var YoYSalesSpeech; 
+                    if(YoYSalesGrowthRate === "unknown")
+                    {
+                        //unknown YoYSalesGrowthRate indicate Zero amount for last the same period last year.
+                        YoYSalesSpeech = "The sales grow from zero to "+ currNetSalesAmountLC;
+                    }
+                    else
+                    {
+                        var growOrDeclineYoY = YoYSalesGrowthRate >= 0.0? "grow ": "decline ";
+                        YoYSalesGrowthRate = formatPerc(Math.abs(YoYSalesGrowthRate));
+                        YoYSalesSpeech = "The sales " + growOrDeclineYoY + YoYSalesGrowthRate;
+                    }
+                    YoYSalesSpeech += " on year over year basis. ";
+
+                    var MoMSalesGrowthRate = response.CurrentPeriodResult.MoMSalesGrowthRate;
+                    if(MoMSalesGrowthRate === "unknown")
+                    {
+                        //unknown YoYSalesGrowthRate indicate Zero amount for last the same period last year.
+                        MoMSalesSpeech = "Grow from zero to "+ currNetSalesAmountLC;
+                    }
+                    else
+                    {
+                        var growOrDeclineMoM = MoMSalesGrowthRate>= 0.0? "Grow ": "Decline ";
+                        MoMSalesGrowthRate = formatPerc(Math.abs(MoMSalesGrowthRate));
+                        MoMSalesSpeech = growOrDeclineMoM + MoMSalesGrowthRate;
+                    }
+                    MoMSalesSpeech += " on month over month basis.";
+                    
+                    speechOutput =  "Your business is doing " + response.OverallStatus +
+                                    ". The sales amount of current period is " + currNetSalesAmountLC +
+                                    ". The gross profit as " + currGrossProfitLC +
+                                    ". The gross margin as " + currGrossMargin + ". " +
+                                    YoYSalesSpeech  + MoMSalesSpeech;
+                }
+                
+                shouldEndSession = true;
+                
+                // call back with result
+                callback(sessionAttributes,
+                    buildSpeechletResponse(
+                            intent.name, speechOutput, 
+                            repromptText, shouldEndSession
+                    )
+                );
+            }
+        );  
+}
+
+function getSocialMediaInfo(intent, session, callback) {
+    
+    var cardTitle = intent.name;
+    var repromptText = "";
+    var sessionAttributes = {};
+    var shouldEndSession = true;
+    var speechOutput = "";
+
+    //Define Variables from Intent or from Session Attributes
+    console.log("INTENT RECEIVED");
+    console.log(JSON.stringify(intent));
+    console.log("SESSION RECEIVED");
+    console.log(JSON.stringify(session));
+    
+    if (intent.name === "AMAZON.YesIntent"){
+        restCall(    
+                "/SocialMediaInfo.xsodata/B1TweetSentiments",  // Endpoint
+                "?$format=json&$top=1&$select=UserName,Text,CreateAt&$filter=TA_TYPE%20eq%20%27StrongNegativeSentiment%27%20or%20TA_TYPE%20eq%20%27WeakNegativeSentiment%27%20&$orderby=CreateAt%20desc,TA_TYPE%20asc", //Filter
+            function (response) {
+                console.log("response is "+ response);
+                response = response.d.results;
+                
+                if(response.length ===0){
+                    speechOutput = "I am sorry, but there are no tweet as required";
+                    
+                }else{
+                    //speechOutput = "#DemoXYZ sucks. The #DemoABC from competitor ABC is flawless. Tweeted by YatseaLiAtSAP on March 26 2017.";
+                    speechOutput =  response[0].Text.replace("#", "") + " . Tweeted By " + response[0].UserName;                    
+                }
+        
+                shouldEndSession = true;
+                callback(sessionAttributes,
+                    buildSpeechletResponse(
+                            intent.name, speechOutput, 
+                            repromptText, shouldEndSession)
+                        );
+            }
+        );
+    }else if (intent.name === "AMAZON.NoIntent") {
+        speechOutput = "Okay."
+        shouldEndSession = true;
+        callback(sessionAttributes,
+                    buildSpeechletResponse(
+                            intent.name, speechOutput, 
+                            repromptText, shouldEndSession
+                    )
+                );
+    }
+    else{
+    restCall(    
+            "/getSocialMediaInfo.xsjs",  // Endpoint
+            "", //Filter
+        function (response) {
+            if(typeof(response.Error) !== 'undefined'){
+                    speechOutput = "I am sorry, but I am not able to retrieve the social media information this time. Please try again later";
+                }else{
+                    var readTweetSpeech = "";
+                    if(response.NegativeTweetCount > 0)
+                        readTweetSpeech = " Do you want me to read some negative tweets for you?";
+                        
+                    var hasSentimentTweetSpeech = "";
+                    if(response.TweetCountWithSentiment > 0)
+                    {
+                        var tweetAboutProbSpeech = "";
+                        if(response.TweetCountWithProblem > 0)
+                            tweetAboutProbSpeech =" Including "+ response.TweetCountWithProblem + " tweets "  + 
+                                    formatPerc(response.ProblemPerc) + " talking about the product problems."
+                        
+                        hasSentimentTweetSpeech =  response.TweetCountWithSentiment +
+                                    " tweets with sentiments. Among them, "+ response.PositiveTweetCount +
+                                    " tweets " + formatPerc(response.PostivePerc) +
+                                    " are positive feedback or comment. While " + response.NegativeTweetCount + 
+                                    " tweets " + formatPerc(response.NegativePerc) +
+                                    " are negative. " +   tweetAboutProbSpeech + readTweetSpeech;
+                        
+                    }
+                    speechOutput =  " On social media, your best selling product I Mini Server is doing " + response.Status +
+                                    " this month. In total, " + response.TweetTotalCount+
+                                    " tweets about the hash tag iMiniServer. " + hasSentimentTweetSpeech; 
+                    if(response.NegativeTweetCount > 0)
+                    {
+                        shouldEndSession = false;
+                        sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);    
+                    }
+                }
+                
+                
+                //shouldEndSession = false;
+                //sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
+                // call back with result
+                callback(sessionAttributes,
+                    buildSpeechletResponse(
+                            intent.name, speechOutput, 
+                            repromptText, shouldEndSession
+                    )
+                );
+            }
+        );  
+    }
+}
+
+function readTweets(intent, session, callback) {
+
+    var cardTitle = intent.name;
+    var repromptText = "";
+    var sessionAttributes = {};
+    var shouldEndSession = true;
+    var speechOutput = "";
+
+    //Define Variables from Intent or from Session Attributes
+    console.log("INTENT RECEIVED");
+    console.log(JSON.stringify(intent));
+    console.log("SESSION RECEIVED");
+    console.log(JSON.stringify(session));
+    
+    var Sentiments = extractValue('Sentiments', intent, session);
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'Sentiments', Sentiments);
+
+    var sentimentType = 'StrongPositiveSentiment';
+    if(Sentiments === null){
+        speechOutput = "Okay! Positive or Negative ones?";
+        repromptText = "You can say Strong Positive";
+    }  
+    else {
+        
+        sentimentType = formatSentiment(Sentiments);
+        restCall(    
+                "/SocialMediaInfo.xsodata/B1TweetSentiments",  // Endpoint
+                "?$format=json&$select=UserName,Text,CreateAt&$filter=TA_TYPE%20eq%20%27"+sentimentType+"%27&$orderby=CreateAt%20desc", //Filter
+            function (response) {
+                console.log("response is "+ response);
+                response = response.d.results;
+                
+                if(response.length ===0){
+                    speechOutput = "I am sorry, but there are no tweet as required";
+                    
+                }
+                else{
+                    //speechOutput = "#DemoXYZ sucks. The #DemoABC from competitor ABC is flawless. Tweeted by YatseaLiAtSAP on March 26 2017.";
+                    speechOutput =  response[0].Text.replace("#", "") + " . Tweeted By " + response[0].UserName;                    
+                }
+        
+                shouldEndSession = true;
+                callback(sessionAttributes,
+                    buildSpeechletResponse(
+                            intent.name, speechOutput, 
+                            repromptText, shouldEndSession)
+                        );
+            }
+        )    
+    }
+    
+}
+
+function getSalesPipelineInfo(intent, session, callback) {
+    
+    //Default
+    var repromptText = null;
+    var sessionAttributes = {};
+    var shouldEndSession = false;
+    var speechOutput = "";
+
+    //Define Variables from Intent or from Session Attributes
+    
+    console.log("INTENT RECEIVED");
+    console.log(JSON.stringify(intent));
+    console.log("SESSION RECEIVED")
+    console.log(JSON.stringify(session));
+    
+    var SalesQuarter = extractValue('SalesQuarter', intent, session)
+    var SalesYear = extractValue('SalesYear', intent, session)
+
+    console.log ("SalesQuarter Extraido "+ SalesQuarter);
+    console.log ("SalesYear Extraido "+ SalesYear);
+        
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'SalesQuarter', SalesQuarter);
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'SalesYear', SalesYear);
+
+    console.log("Vao ser exportados " + JSON.stringify(sessionAttributes));
+    if(SalesQuarter === 'this' || SalesQuarter === 'current')
+    {
+            var today = new Date();
+            //var period = initB1PeriodByDate(today);
+            SalesQuarter = getCalendarQuarterStr(today);
+            SalesYear = today.getFullYear();  
+            //SalesYear = g_currFinPeriod.FiscalYear;
+    }
+    else if(SalesQuarter === 'last')
+    {
+            var d = new Date();
+            var lastQuarter = getLastQuarter(d);
+            SalesQuarter = lastQuarter.Quarter;
+            SalesYear = lastQuarter.Year;
+    }
+        
+    if(SalesQuarter === null){
+        speechOutput = "Got it! What quarter?";
+        repromptText = "Tell me the quarter and the year.";
+    } else if(SalesYear === null){
+        speechOutput = "What year do you need?";
+        repromptText = "You can do it, tell me a year.";
+    } else {
+        
+        var b1Quarter = formatQuarter2(SalesQuarter);
+        var oDataFilter = 'OpportunityStartYear'+ op('eq')+quotes(SalesYear) +op('and')+
+                          'OpportunityStartQuarter'+ op('eq')+quotes(b1Quarter);
+
+        oDataFilter = oDataFilter.replace(/ /g, "%20"); // Avoid unescaped characters
+                
+        console.log('OdataFilter = '+ oDataFilter);
+    
+        restCall(    
+                "/BusinessInfo.xsodata/OpportunityQuery",  // Endpoint
+                "?$format=json&$select=PotentialAmountLC,WeightedAmountLC,NumberOfOpportunity,AverageClosingPercentage,OpportunityStatus&$filter="+oDataFilter, //Filter
+    
+            function (response) {
+                console.log("response is "+ response);
+                //There is a technical error return from odata.
+                if(typeof(response.error) !== 'undefined')
+                {
+                    speechOutput = "I am sorry, but there is an error. I am not able to retrive the sales pipeline information this time. Please try again later.";
+                }
+                else
+                {
+                    response = response.d.results;
+                    
+                    if(response.length ==0){
+                        speechOutput = "I am sorry, but there are no sales oppotunities in the " + stringQuarter(SalesQuarter) + " quarter of " + SalesYear;
+                        
+                    }else{
+                        var openOppr={};
+                        var lostOppr={};
+                        var wonOppr={};
+                        var totalOpprNo = 0;
+                        var totalClosedNo = 0;
+                        var totalPotentialAmountLC = 0.0;
+                        var totalWeightedAmountLC = 0.0;
+                        var totalClosingPerc = 0.0;
+                        for(var i=0; i< response.length; i++)
+                        {
+                            totalOpprNo += response[i].NumberOfOpportunity;
+                            totalPotentialAmountLC += parseFloat(response[i].PotentialAmountLC,0);
+                            totalWeightedAmountLC += parseFloat(response[i].WeightedAmountLC,0);
+                            totalClosingPerc += response[i].AverageClosingPercentage * response[i].NumberOfOpportunity;
+                            if(response[i].OpportunityStatus === "Open")
+                            {
+                                openOppr = response[i];
+                            }
+                            else if(response[i].OpportunityStatus === "Won")
+                            {
+                                wonOppr = response[i];
+                                totalClosedNo += wonOppr.NumberOfOpportunity;
+                            }
+                            else
+                            {
+                                lostOppr = response[i];
+                                totalClosedNo += lostOppr.NumberOfOpportunity;
+                            }
+                        }
+                        var AverageClosingPercentage = totalOpprNo === 0? "0%" : round(totalClosingPerc / totalOpprNo,1) + "%";
+                        var wonSpeech = "";
+                        
+                        if(typeof(wonOppr.NumberOfOpportunity) !== 'undefined')
+                        {
+                            var wonRate = calcPerc(wonOppr.NumberOfOpportunity, totalClosedNo);
+                            wonSpeech = " We have won " + wonOppr.NumberOfOpportunity +
+                                        " opportunities. Winning rate as " + wonRate + ". ";
+                        }
+                        
+                        var lostSpeech = "";
+                        if(typeof(lostOppr.NumberOfOpportunity) !== 'undefined')
+                        {
+                            var lostRate = calcPerc(lostOppr.NumberOfOpportunity, totalClosedNo);
+                            lostSpeech = " Lost " + lostOppr.NumberOfOpportunity +
+                                        " opportunities. Losing rate as " + lostRate + ". ";
+                        }
+                        
+                        var openSpeech = "";
+                        if(typeof(openOppr.NumberOfOpportunity) !== 'undefined')
+                        {
+                            
+                            openSpeech = " We still have " + openOppr.NumberOfOpportunity +
+                            " open opportunities with potential amount as " + openOppr.PotentialAmountLC + 
+                            "$ and weighted amount as "+ openOppr.WeightedAmountLC + "$."; 
+                        }
+                        
+                        speechOutput =  "There are "+totalOpprNo+" sales opportunities in the pipeline for the " + 
+                                        stringQuarter(b1Quarter) + " quarter of " + SalesYear + ". Total potential amount as " +
+                                        totalPotentialAmountLC + " $. Total weighted amount as " + totalWeightedAmountLC + " $. "+
+                                        " The average closing percentage as " + AverageClosingPercentage +". " +
+                                        wonSpeech + lostSpeech + openSpeech;
+                    }
+                }
+                shouldEndSession = true;
+    
+                // call back with result
+                callback(sessionAttributes,
+                    buildSpeechletResponse(
+                            intent.name, speechOutput, 
+                            repromptText, shouldEndSession
+                    )
+                );
+            }
+        );  
+        return;
+    }
+    
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
+
+    
+    // Call back while there still questions to ask
+    callback(sessionAttributes,
+        buildSpeechletResponse(
+                intent.name, speechOutput, 
+                repromptText, shouldEndSession
+        )
+    );
+}
+
+function getTopItems(intent, session, callback) {
+    
+    //Default
+    var repromptText = null;
+    var sessionAttributes = {};
+    var shouldEndSession = false;
+    var speechOutput = "";
+
+    //Define Variables from Intent or from Session Attributes
+    
+    console.log("INTENT RECEIVED");
+    console.log(JSON.stringify(intent));
+    console.log("SESSION RECEIVED")
+    console.log(JSON.stringify(session));
+    
+    var TopNo = extractValue('TopNo', intent, session);
+    console.log ("TopNo Extracted "+ TopNo);
+        
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'TopNo', TopNo);
+
+    if(TopNo === null){
+        speechOutput = "Got it! How many top items?";
+        repromptText = "Tell me top 3 or top 5.";
+    }  else {
+        restCall(    
+                "/BusinessInfo.xsodata/SalesAnalysisQuery",  // Endpoint
+                "?$format=json&$select=ItemCode,ItemDescription&$top="+TopNo+"&$orderby=NetSalesAmountLC%20desc", //Filter
+    
+            function (response) {
+                console.log("response is "+ response);
+                //There is a technical error return from odata.
+                if(typeof(response.error) !== 'undefined')
+                {
+                    speechOutput = "I am sorry, but there is an error. I am not able to retrieve the best selling products this time. Please try again later.";
+                }
+                else
+                {
+                    response = response.d.results;
+                    
+                    if(response.length === 0){
+                        speechOutput = "I am sorry, but there are no items.";
+                        
+                    }else{
+                        speechOutput = "The top "+TopNo +" best selling product are: " ;
+                        
+                        for(var i=0; i< response.length; i++)
+                        {
+                            speechOutput += " Item " + response[i].ItemCode.replace("-","").replace("_","") + " , ";
+                            speechOutput +=  response[i].ItemDescription.replace("-","").replace("_","").replace(".","") + " . ";
+                        }
+                    }
+                }
+                shouldEndSession = true;
+    
+                // call back with result
+                callback(sessionAttributes,
+                    buildSpeechletResponse(
+                            intent.name, speechOutput, 
+                            repromptText, shouldEndSession
+                    )
+                );
+            }
+        );  
+        return;
+    }
+    
+    sessionAttributes = handleSessionAttributes(sessionAttributes, 'PreviousIntent', intent.name);
+    // Call back while there still questions to ask
+    callback(sessionAttributes,
+        buildSpeechletResponse(
+                intent.name, speechOutput, 
+                repromptText, shouldEndSession
+        )
+    );
+}
+
 function getSalesGroups(intent, session, callback) {
-    
-    
+
     var GroupFilter = intent.slots.ItemGroup.value;
     console.log("GroupFilter received is "+ GroupFilter)
     GroupFilter = formatItemGrp(GroupFilter);
@@ -586,12 +1102,12 @@ function restCall(endPoint, filter, response) {
             console.log('BODY CHUNK: ' + d);
             body +=d;
         });
-        
-        res.on('end', function() {      
-            console.log('BODY END '+ body);     
-           var parsed = JSON.parse(body);       
-            response(parsed);       
-                    
+	    
+	    res.on('end', function() {		
+            console.log('BODY END '+ body);		
+           var parsed = JSON.parse(body);		
+            response(parsed);		
+            		
         });
     }).on('error', function (e) {
         console.log("Error message: " + e.message);
@@ -668,24 +1184,221 @@ function formatQuarter(input){
     
 }
 
+function formatQuarter2(input){
+    
+    if (input == 'first' || input == '1st' || input == '01' ){
+        return 'Q1';
+    }
+    
+    if (input == 'second' || input == '2nd'|| input == '02' ){
+        return 'Q2';
+    }
+    
+    if (input == 'third' || input == '3rd' || input == '03'){
+        return 'Q3';
+    }
+    
+    if (input == 'fourth' || input == '4th'|| input == '04' ){
+        return 'Q4';
+    }
+    
+}
+
 function stringQuarter(input){
     
-    if (input == '01'){
+    if (input == '01' || input == 'Q1' ){
         return 'first';
     }
     
-    if (input == '02'){
+    if (input == '02' || input == 'Q2'){
         return 'second';
     }
     
-    if (input == '03'){
+    if (input == '03' || input == 'Q3'){
         return 'third';
     }
     
-    if (input == '04'){
+    if (input == '04' || input == 'Q4'){
         return 'fourth';
     }
     
+}
+
+/***
+ * Input month: 0-11
+ * Output: '01', '02', '03', '04'...
+ ***/
+function formatMonth(month)
+{
+    month = parseInt(month, 0)+1;
+    return month < 10? "0"+month: month.toString();
+}
+
+function getLastQuarter(d)
+{
+ 	d = d || new Date();
+    var m = d.getMonth();
+    var y = d.getFullYear();
+    if(m < 3)
+    {
+        m = m + 9;
+        y = y - 1;
+    }
+    else
+    {
+        m = m - 3;
+    }
+    d.setMonth(m);
+    d.setFullYear(y);
+    var result = {};
+    result.Quarter = getCalendarQuarterStr(d);
+    result.Year = y;
+    return result;
+}
+
+/***
+ * To be improved: should get the financial period code from B1.
+ * not all country work on the calendar fiscal financial year.
+ * 
+ * Input month: 0-11
+ * Output: '01', '02', '03', '04'...
+ ***/
+function formatB1PeriodCode(year, month)
+{
+    month = formatMonth(month);
+    return year + "-" + month;
+}
+
+function formatB1PeriodCode2(d)
+{
+    d = d || new Date();
+    return formatB1PeriodCode(d.getFullYear(), d.getMonth());
+}
+
+/***
+ * Get the current financial period code base on full year and month.
+ * 
+ * Input month: 2017-03-30
+ * Output: '2017-03', '2017-02'...
+ ***/
+function getCurrentB1PeriodCode()
+{
+    var today = new Date();
+    return formatB1PeriodCode2(today);
+}
+
+/***
+ * Get the financial period information for the a given date..
+ * 
+ * Input date: 2017-03-30
+ * Output: integer, 20170330
+ ***/
+function formatB1DateInt(d)
+{
+	d = d || new Date();
+	var dateStr = d.getFullYear().toString()+formatMonth(d.getUTCMonth())+d.getUTCDate().toString();
+    return parseInt(dateStr, 0);
+}
+
+function ThisYear()
+{
+    return (new Date()).getFullYear();;
+}
+
+/***
+ * Get the financial period information for the a given date..
+ * 
+ * Input month: 2017-03-30
+ * Output: '2017-03', '2017-02'...
+ ***/
+function initB1PeriodByDate(d)
+{
+    d = d || new Date(); //if no input date, use today
+    var dateInt = formatB1DateInt(d);
+    var period = {};
+    period.FinancialPeriodCode = getCurrentB1PeriodCode();
+    period.FiscalYear = ThisYear();
+    g_currFinPeriod = {};
+    g_currFinPeriod.FinancialPeriodCode = getCurrentB1PeriodCode();
+    g_currFinPeriod.FiscalYear = ThisYear();     
+    
+    try
+    {
+        restCall(    
+                "/BusinessInfo.xsodata/FinancialPeriod",  // Endpoint
+                "?$format=json&$select=FinancialPeriodCode,FiscalYear&$filter=PeriodStart%20le%20"+dateInt+"%20and%"+dateInt+"%20le%20PeriodEnd", //Filter
+            function (response) {
+                console.log("response is "+ response);
+                response = response.d.results;
+                
+                if(response.length > 0)
+                {
+                    period = response[0];
+                    g_currFinPeriod = period;
+                }
+            }
+        );
+    }
+    catch(e)
+    {
+        console.log(e);
+    }
+}
+
+/***
+ * Get the current financial period code base on full year and month.
+ * 
+ * Input month: 2017-03-30
+ * Output: '2017-03', '2017-02'...
+ ***/
+function getCalendarQuarter(d) {
+  d = d || new Date();
+  var m = Math.floor(d.getMonth()/3) +1 ;
+  return m ;
+}
+
+function getCalendarQuarterStr(d) {
+  d = d || new Date();
+  var q = "0" + (Math.floor(d.getMonth()/3) +1).toString() ;
+  return q ;
+}
+
+//WeakPositiveSentiment','StrongPositiveSentiment','NeutralSentiment', '
+//WeakNegativeSentiment','StrongNegativeSentiment','MajorProblem','MinorProblem'
+function formatSentiment(input){
+    
+    input = input.toUpperCase();
+    switch(input) {
+    case 'WEAK POSITIVE':
+        return 'WeakPositiveSentiment';
+
+    case 'STRONG POSITIVE':
+        return 'StrongPositiveSentiment';
+
+    case 'POSITIVE':
+        return 'StrongPositiveSentiment';
+
+    case 'NEUTRAL':
+        return 'NeutralSentiment';
+        
+    case 'NEGATIVE':
+        return 'StrongNegativeSentiment';
+        
+    case 'WEAK NEGATIVE':
+        return 'WeakNegativeSentiment';
+        
+    case 'STRONG NEGATIVE':
+        return 'StrongNegativeSentiment';
+        
+    case 'MAJOR PROBLEM':
+        return 'MajorProblem';
+
+    case 'MINOR PROBLEM':
+        return 'MinorProblem';
+
+    default:
+        return 'StrongPositiveSentiment';
+    }
 }
 
 function formatItemGrp(itemGrp){
@@ -707,6 +1420,27 @@ function toTitleCase(str)
     });
 }
 
+function round(value, precision) {
+    var multiplier = Math.pow(10, precision || 0);
+    return Math.round(value * multiplier) / multiplier;
+}
+
+function formatPerc(value) {
+    return round(value * 100, 1) +"%";
+}
+
+function calcPerc(value1, value2) {
+    if(typeof(value2) !== 'undefined' 
+        && value2 !== 0 
+        && typeof(value1) !== 'undefined' )
+    {
+        return round(value1* 100 / value2, 1)+ "%";
+    }
+    
+    return "0%";
+}
+
+
 // -------------------- Speech Functions Formatting -----------------------
 function getWelcomeMessage(){
     var message = [];
@@ -714,6 +1448,17 @@ function getWelcomeMessage(){
     message[0] = "Welcome to B1 Assistant. How can I help?"
     message[1] = "Hi, I am your B1 assistant. How can I Help you today?"
     message[2] = "This is B1 assistant speaking. What is my command?"
+    message[3] = "Hello, here is B1 assistant. Let me know what do you wish."
+
+    return message[getRandomInt(0,message.length-1)];
+}
+
+function getWelcomeMessageAPJ(){
+    var message = [];
+    
+    message[0] = "Namastay! This is B1 Assistant. How can I help?"
+    message[1] = "Knee how! I am your B1 assistant. How can I Help you today?"
+    message[2] = "Hola! This is B1 assistant speaking. What is my command?"
     message[3] = "Hello, here is B1 assistant. Let me know what do you wish."
 
     return message[getRandomInt(0,message.length-1)];
