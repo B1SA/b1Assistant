@@ -1,6 +1,0 @@
-service {
- 	"_SYS_BIC"."b1Assistant.models.CA/B1_SALES_ITEMGROUP" as "ItemGroup" keys ("ITEMGROUP");
- 	
- 	 "_SYS_BIC"."b1Assistant.models.CA/B1_SALES_ITEMGROUPALL" as "ItemGroupAll" keys ("ITEMGROUP");
-
- } 
