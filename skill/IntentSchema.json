@@ -44,7 +44,7 @@
             },
             {
                "name":"SalesQuarter",
-               "type":"SAP_QUARTER"
+               "type":"SAP_QUARTERS"
             },
             {
                "name":"SalesYear",
