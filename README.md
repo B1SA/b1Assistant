@@ -10,7 +10,10 @@ complete demo - https://www.youtube.com/watch?v=WaXXYcMfgSs
 ## Installation - SAP HANA App
 You can clone this repository and create a new project on your HANA system or import the Delivery Unity available on the link above.
 
-Access the HANA Admin Tools dashboard (http://hanaserver:8000/sap/hana/xs/admin) and set a user and password for the file: b1Assistant > lib > annonuser.xssqlcc
+Access the HANA Admin Tools dashboard (http://hanaserver:8000/sap/hana/xs/admin)
+	- set a HANA user and password for the file: b1Assistant > lib > annonuser.xssqlcc
+	- set a B1 User and Password (Service Layer) for xshttpdests files on b1Assistant > lib > http
+	
 
 Use the index.html file to test your app.
 
