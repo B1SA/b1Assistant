@@ -20,6 +20,25 @@ Use the index.html file to test your app.
 ## Installation - Alexa Skill
 Instructions available on the link above
 
+Now you also can deploy the alexa skill locally or cloud foundry as standalone nodejs app instead of AWS Lambda function. Follow the steps below:
+
+###Step 1: Deploy the standalone b1Assistant locally or on a cloud platform with node run-time. 
+   - To deploy locally, run the command below:
+```sh
+$ cd ./skill/standalone_alexa_b1_skill
+$ npm install
+$ npm start
+```
+   - To deploy on SAP Cloud Platform Cloud Foundry, run the command below:
+```sh
+$ cf push
+```
+
+If you are new to SAP Cloud Platform Cloud Foundry, please refer to this youtube video:
+https://youtu.be/fOraTnTZktI
+
+###Step 2: Update the end point of alexa skill with HTTPS instead of AWS Lambda ARN in the configuration section of your Alexa skill.
+
 ## License
 B1 Assistant prototype is released under the terms of the MIT license. See [LICENSE](LICENSE) for more information or see https://opensource.org/licenses/MIT.
 
