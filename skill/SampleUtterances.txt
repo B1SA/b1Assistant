@@ -115,11 +115,11 @@ SalesPipeline update me sales pipeline
 SalesPipeline for sales pipeline update
 SalesPipeline for sales pipeline update for {SalesQuarter} quarter
 SalesPipeline how is my sales pipeline for {SalesQuarter} quarter
-SalesPipeline {SalesQuarter} 
+SalesPipeline how is my sales pipeline for the {SalesQuarter} quarter of year {SalesYear}
 SalesPipeline {SalesQuarter} quarter
-SalesPipeline {SalesQuarter} of {SalesYear}
-SalesPipeline {SalesQuarter} quarter of {SalesYear}
-SalesPipeline {SalesYear}
+SalesPipeline {SalesQuarter} of year {SalesYear}
+SalesPipeline {SalesQuarter} quarter of year {SalesYear}
+SalesPipeline year {SalesYear}
 
 GetTopItems what are my best selling products
 GetTopItems what are my best selling items
