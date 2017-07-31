@@ -20,17 +20,20 @@ Use the index.html file to test your app.
 ## Installation - Alexa Skill
 Instructions available on the link above.
 
+Update on 31 July 2017: the alexa skill b1Assistant.js has been moved from ./skill folder to ./skill/nodejs folder for sharing the same code between AWS Lambda function and stand alone alexa deloyment below.
+
 Apart from deployment with AWS Lambda function,  Now you also can deploy the alexa skill locally or cloud foundry as standalone nodejs app. Follow the steps below:
 
 ### Step 1: Deploy the standalone b1Assistant locally or on a cloud platform with node run-time. 
    - To deploy locally, run the command below:
 ```sh
-$ cd ./skill/standalone_alexa_b1_skill
+$ cd ./skill/nodejs
 $ npm install
 $ npm start
 ```
    - To deploy on SAP Cloud Platform Cloud Foundry, run the command below:
 ```sh
+$ cd ./skill/nodejs
 $ cf push
 ```
 
