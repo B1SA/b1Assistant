@@ -1,71 +1,99 @@
 {
-   "intents":[
-      {
-         "intent":"GetSalesGroups",
-         "slots":[
-            {
-               "name":"ItemGroup",
-               "type":"SAP_GROUPS"
-            }
-         ]
-      },
-      {
-         "intent":"SayHello",
-         "slots":[
-            {
-               "name":"FirstName",
-               "type":"AMAZON.US_FIRST_NAME"
-            }
-         ]
-      },
-      {
-         "intent":"MakePurchase",
-         "slots":[
-            {
-               "name":"ItemName",
-               "type":"SAP_ITEMS"
-            },
-            {
-               "name":"Quantity",
-               "type":"AMAZON.NUMBER"
-            },
-            {
-               "name":"ItemRecom",
-               "type":"SAP_ITEMS"
-            }
-         ]
-      },
-      {
-         "intent":"SalesInfo",
-         "slots":[
-            {
-               "name":"ItemGroup",
-               "type":"SAP_GROUPS"
-            },
-            {
-               "name":"SalesQuarter",
-               "type":"SAP_QUARTERS"
-            },
-            {
-               "name":"SalesYear",
-               "type":"AMAZON.NUMBER"
-            }
-         ]
-      },
-      {
-         "intent":"SaleRecommend"
-      },
-      {
-         "intent":"AMAZON.NoIntent"
-      },
-      {
-         "intent":"AMAZON.YesIntent"
-      },
-      {
-         "intent":"AMAZON.CancelIntent"
-      },
-      {
-         "intent":"AMAZON.StopIntent"
-      }
-   ]
+  "intents": [
+    {
+      "intent": "Test"
+    },
+    {
+      "intent": "BusinessInfo"
+    },
+    {
+      "slots": [
+        {
+          "name": "SalesQuarter",
+          "type": "SAP_QUARTERS"
+        },
+        {
+          "name": "SalesYear",
+          "type": "AMAZON.NUMBER"
+        }
+      ],
+      "intent": "SalesPipeline"
+    },
+    {
+      "slots": [
+        {
+          "name": "TopNo",
+          "type": "AMAZON.NUMBER"
+        }
+      ],
+      "intent": "GetTopItems"
+    },
+    {
+      "slots": [
+        {
+          "name": "ItemGroup",
+          "type": "SAP_GROUPS"
+        }
+      ],
+      "intent": "GetSalesGroups"
+    },
+    {
+      "slots": [
+        {
+          "name": "FirstName",
+          "type": "AMAZON.US_FIRST_NAME"
+        }
+      ],
+      "intent": "SayHello"
+    },
+    {
+      "slots": [
+        {
+          "name": "ItemName",
+          "type": "SAP_ITEMS"
+        },
+        {
+          "name": "Quantity",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "ItemRecom",
+          "type": "SAP_ITEMS"
+        }
+      ],
+      "intent": "MakePurchase"
+    },
+    {
+      "slots": [
+        {
+          "name": "ItemGroup",
+          "type": "SAP_GROUPS"
+        },
+        {
+          "name": "SalesQuarter",
+          "type": "SAP_QUARTERS"
+        },
+        {
+          "name": "SalesYear",
+          "type": "AMAZON.NUMBER"
+        }
+      ],
+      "intent": "SalesInfo"
+    },
+    {
+      "intent": "SaleRecommend"
+    },
+    {
+      "intent": "AMAZON.NoIntent"
+    },
+    {
+      "intent": "AMAZON.YesIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    }
+  ]
 }

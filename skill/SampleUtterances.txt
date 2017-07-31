@@ -1,8 +1,87 @@
-GetSalesGroups how are the sales for {ItemGroup}
-GetSalesGroups show me the numbers for {ItemGroup}
+Test test
+Test do a test
 
 SayHello Say hi to {FirstName}
 SayHello Salute our friend {FirstName}
+
+BusinessInfo how is business
+BusinessInfo how is business going
+BusinessInfo how is business doing
+BusinessInfo how is my business
+BusinessInfo how is my business going
+BusinessInfo how is my business doing
+BusinessInfo get me business info
+BusinessInfo get me business information
+BusinessInfo get me business result
+BusinessInfo get me business update
+BusinessInfo give me business info
+BusinessInfo give me business information
+BusinessInfo give me business result
+BusinessInfo give me business update
+BusinessInfo give me business status
+BusinessInfo update me business info
+BusinessInfo update me business information
+BusinessInfo update me business result
+BusinessInfo update me business status
+BusinessInfo tell me business info
+BusinessInfo tell me business information
+BusinessInfo tell me business result
+BusinessInfo tell me business status
+BusinessInfo tell me business update
+BusinessInfo show me business info
+BusinessInfo show me business information
+BusinessInfo show me business result
+BusinessInfo show me business status
+BusinessInfo show me business update
+
+SalesPipeline how is the sales pipeline
+SalesPipeline how is my sales pipeline
+SalesPipeline get me sales pipeline update
+SalesPipeline give me sales pipeline update
+SalesPipeline update me sales pipeline
+SalesPipeline for sales pipeline update
+SalesPipeline for sales pipeline update for {SalesQuarter} quarter
+SalesPipeline how is my sales pipeline for {SalesQuarter} quarter
+SalesPipeline how is my sales pipeline for the {SalesQuarter} quarter of year {SalesYear}
+SalesPipeline {SalesQuarter} quarter
+SalesPipeline {SalesQuarter} of year {SalesYear}
+SalesPipeline {SalesQuarter} quarter of year {SalesYear}
+SalesPipeline year {SalesYear}
+
+GetTopItems what are my best selling products
+GetTopItems what are my best selling items
+GetTopItems what are my top items
+GetTopItems what are my top {TopNo} items
+GetTopItems for top {TopNo} items
+GetTopItems show me top {TopNo} items
+GetTopItems get me top {TopNo} items
+GetTopItems give me top {TopNo} items
+GetTopItems Top {TopNo}
+GetTopItems Top {TopNo} items
+
+GetSalesGroups how are the sales for {ItemGroup}
+GetSalesGroups show me the numbers for {ItemGroup}
+
+MakePurchase I need office supplies
+MakePurchase get me office supplies
+MakePurchase buy me office supplies
+MakePurchase for office supplies
+MakePurchase I need to buy things
+MakePurchase I need to place an order
+MakePurchase {ItemName}
+MakePurchase buy me {ItemName}
+MakePurchase buy me {Quantity} unities of {ItemName}
+MakePurchase buy me {Quantity} unity of {ItemName}
+MakePurchase buy me {Quantity} packs of {ItemName}
+MakePurchase buy me {Quantity} pack of {ItemName}
+MakePurchase {Quantity} unities
+MakePurchase {Quantity} unity
+MakePurchase {Quantity} pack
+MakePurchase {Quantity} packs
+MakePurchase get me also {ItemRecom}
+MakePurchase {ItemRecom} will be nice
+MakePurchase you can add {ItemRecom} to this order
+MakePurchase {ItemRecom} and i am good
 
 SalesInfo give me sales info
 SalesInfo give me sales information
@@ -25,41 +104,14 @@ SalesInfo show me sales info
 SalesInfo show me sales information
 SalesInfo show me sales reports
 SalesInfo show me sales numbers
-
-
 SalesInfo {ItemGroup}
 SalesInfo {SalesQuarter}
 SalesInfo {SalesQuarter} of {SalesYear}
 SalesInfo {SalesQuarter} quarter of {SalesYear}
 SalesInfo {SalesYear}
 
-MakePurchase I need office supplies
-MakePurchase get me office supplies
-MakePurchase buy me office supplies
-MakePurchase for office supplies
-MakePurchase I need to buy things
-MakePurchase I need to place an order
-
-MakePurchase {ItemName}
-MakePurchase buy me {ItemName}
-MakePurchase buy me {Quantity} unities of {ItemName}
-MakePurchase buy me {Quantity} unity of {ItemName}
-MakePurchase buy me {Quantity} packs of {ItemName}
-MakePurchase buy me {Quantity} pack of {ItemName}
-
-MakePurchase {Quantity} unities
-MakePurchase {Quantity} unity
-MakePurchase {Quantity} pack
-MakePurchase {Quantity} packs
-
-MakePurchase get me also {ItemRecom}
-MakePurchase {ItemRecom} will be nice
-MakePurchase you can add {ItemRecom} to this order
-MakePurchase {ItemRecom} and i am good
-
 SaleRecommend What do you have for me
 SaleRecommend Do you got any item recommendation
 SaleRecommend Do you got any product recommendation
 SaleRecommend Do you got any purchase recommendation
 SaleRecommend what do you got for me
-
