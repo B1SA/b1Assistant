@@ -123,8 +123,8 @@ function onIntent(intentRequest, session, callback) {
             getBusinessInfo(intent, session, callback);
             break;
         /**************************************************
-         //comment the twitter integration, which is only available in twitter branch.
-         //Not fo the mater branch.
+        *Enable the twitter integration in twitter branch.
+        ***************************************************/
         case "SocialMediaInfo":
             getSocialMediaInfo(intent, session, callback);
             break;
@@ -132,7 +132,7 @@ function onIntent(intentRequest, session, callback) {
         case "ReadTweets":
             readTweets(intent, session, callback);
             break;
-        ***************************************************/
+        
         case "SalesPipeline":
             getSalesPipelineInfo(intent, session, callback);
             break;
@@ -318,9 +318,9 @@ function getBusinessInfo(intent, session, callback) {
     );
 }
 
-/****************************************************************
-//Comment the integration part with twitter, which is available in twitter branch only.
-//Not for the master branch due to dependence.
+/**************************************************
+*Enable the twitter integration in twitter branch.
+***************************************************/
 function getSocialMediaInfo(intent, session, callback) {
 
     var cardTitle = intent.name;
@@ -469,7 +469,6 @@ function readTweets(intent, session, callback) {
     }
 
 }
-****************************************************************/
 
 function getSalesPipelineInfo(intent, session, callback) {
 
