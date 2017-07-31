@@ -1,0 +1,5 @@
+---
+applications:
+- name: B1Assistant
+  memory: 128m
+  instances: 1
