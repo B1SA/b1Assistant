@@ -1,17 +1,7 @@
 /**
  * This code implements an integration of SAP Business One on HANA with Amazon Alexa
- * Version: 2.0
- * Change logs: 
- * Add the executive questions:
- * 1.How is my Business?
- * 2.How's my sales pipeline?
- * 3.What are my top N items?
- * except the integration of twitter sentiment analysis which locates on the twitter branch.
- *  
- * How to use this code:
- * 1.You can copy this code to a AWS Lambda function directly, and then hosted the b1Assistant alexa
- * skill on Lambda.
- * 2.Change g_hdbServer = '<YOUR HANA HOST or IP Address HERE!>' to your HANA host or IP.
+ * 
+ * For instrunctions and changelog please check the GitHub Repository
  * 
  * Athors: 
  * Ralph Oliveira - B1 Solution Architect - Twitter: @Ralphive
@@ -29,6 +19,7 @@ var g_hdbServer = '<YOUR HANA HOST or IP Address HERE!>';
 var g_hdbPort  = 8000; // Http(8000) or Https(4300)
 var g_hdbService = '/b1Assistant/services';
 var g_currFinPeriod = null;
+var SocialMediaIntegration = false // Set this to true in case Twitter Integration is deployed
 
 exports.handler = function (event, context) {
     try {
@@ -115,16 +106,10 @@ function onIntent(intentRequest, session, callback) {
     // Dispatch to your skill's intent handlers
 
     switch (intentName) {
-        case "Test":
-            Test(intent, session, callback);
-            break;
-
         case "BusinessInfo":
             getBusinessInfo(intent, session, callback);
             break;
-        /**************************************************
-         //comment the twitter integration, which is only available in twitter branch.
-         //Not fo the mater branch.
+
         case "SocialMediaInfo":
             getSocialMediaInfo(intent, session, callback);
             break;
@@ -132,7 +117,7 @@ function onIntent(intentRequest, session, callback) {
         case "ReadTweets":
             readTweets(intent, session, callback);
             break;
-        ***************************************************/
+
         case "SalesPipeline":
             getSalesPipelineInfo(intent, session, callback);
             break;
@@ -211,6 +196,10 @@ function handleSessionEndRequest(callback) {
     callback({}, buildSpeechletResponse(cardTitle, speechOutput, null, shouldEndSession));
 }
 
+function SocialMediaIntegrationActive(){
+    return SocialMediaIntegration;
+}
+
 /**
  * SAP HANA Interactions
  */
@@ -224,27 +213,6 @@ function sayHello(intent, session, callback) {
 
     speechOutput = "Oh my god! What was that party last night? " +
         "I still feel the headache, even though I do not have a head."
-
-    callback(sessionAttributes,
-        buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
-}
-
-function Test(intent, session, callback) {
-
-    var cardTitle = intent.name;
-    var repromptText = "";
-    var sessionAttributes = {};
-    var shouldEndSession = true;
-    var speechOutput = "";
-
-    var today = new Date();
-    //var period = initB1PeriodByDate(today);
-    //SalesQuarter = getCalendarQuarterStr(today);
-    //SalesYear = today.getFullYear();
-    //speechOutput = "Test result. Financial period code " + g_currFinPeriod.FinancialPeriodCode +
-    //" year " + g_currFinPeriod.FiscalYear;
-    //speechOutput = "#DemoXYZ sucks. The #DemoABC from competitor ABC is flawless. Tweeted by YatseaLiAtSAP on March 26 2017.";
-    speechOutput = "#iMiniServer. SallyGlass.";
 
     callback(sessionAttributes,
         buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
@@ -318,9 +286,7 @@ function getBusinessInfo(intent, session, callback) {
     );
 }
 
-/****************************************************************
-//Comment the integration part with twitter, which is available in twitter branch only.
-//Not for the master branch due to dependence.
+
 function getSocialMediaInfo(intent, session, callback) {
 
     var cardTitle = intent.name;
@@ -328,6 +294,17 @@ function getSocialMediaInfo(intent, session, callback) {
     var sessionAttributes = {};
     var shouldEndSession = true;
     var speechOutput = "";
+
+    if (!SocialMediaIntegrationActive()){
+        speechOutput = "I am sorry, Social Media integration is not active on B1 Assistant"
+        callback(sessionAttributes,
+            buildSpeechletResponse(
+                intent.name, speechOutput,
+                repromptText, shouldEndSession
+            )
+        );
+
+    }
 
     //Define Variables from Intent or from Session Attributes
     console.log("INTENT RECEIVED");
@@ -426,6 +403,17 @@ function readTweets(intent, session, callback) {
     var sessionAttributes = {};
     var shouldEndSession = true;
     var speechOutput = "";
+    
+    if (!SocialMediaIntegrationActive()){
+        speechOutput = "I am sorry, Social Media integration is not active on B1 Assistant"
+        callback(sessionAttributes,
+            buildSpeechletResponse(
+                intent.name, speechOutput,
+                repromptText, shouldEndSession
+            )
+        );
+
+    }
 
     //Define Variables from Intent or from Session Attributes
     console.log("INTENT RECEIVED");
@@ -469,7 +457,6 @@ function readTweets(intent, session, callback) {
     }
 
 }
-****************************************************************/
 
 function getSalesPipelineInfo(intent, session, callback) {
 
