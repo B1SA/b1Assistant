@@ -1,9 +1,0 @@
-Weak Positive
-Strong Positive
-Positive
-Neutral
-Negative
-Weak Negative
-Strong Negative
-Major Problem
-Minor Problem
