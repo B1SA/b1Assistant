@@ -113,36 +113,6 @@ SaleRecommend Do you got any product recommendation
 SaleRecommend Do you got any purchase recommendation
 SaleRecommend what do you got for me
 
-BusinessInfo how is business
-BusinessInfo how is business going
-BusinessInfo how is business doing
-BusinessInfo how is my business
-BusinessInfo how is my business going
-BusinessInfo how is my business doing
-BusinessInfo get me business info
-BusinessInfo get me business information
-BusinessInfo get me business result
-BusinessInfo get me business update
-BusinessInfo give me business info
-BusinessInfo give me business information
-BusinessInfo give me business result
-BusinessInfo give me business update
-BusinessInfo give me business status
-BusinessInfo update me business info
-BusinessInfo update me business information
-BusinessInfo update me business result
-BusinessInfo update me business status
-BusinessInfo tell me business info
-BusinessInfo tell me business information
-BusinessInfo tell me business result
-BusinessInfo tell me business status
-BusinessInfo tell me business update
-BusinessInfo show me business info
-BusinessInfo show me business information
-BusinessInfo show me business result
-BusinessInfo show me business status
-BusinessInfo show me business update
-
 SocialMediaInfo how is my product on social media
 SocialMediaInfo how is my product doing on social media
 SocialMediaInfo how is my product going on social media
@@ -154,6 +124,7 @@ SocialMediaInfo what is up on twitter
 SocialMediaInfo get me social media update
 SocialMediaInfo give me social media update
 SocialMediaInfo for social media update
+
 ReadTweets Read me some tweets
 ReadTweets Read me some tweets about my product
 ReadTweets Read me some {Sentiments} tweets about my product
@@ -162,27 +133,5 @@ ReadTweets for some {Sentiments} tweets about my product
 ReadTweets for some {Sentiments} tweets
 ReadTweets {Sentiments} tweet 
 
-SalesPipeline how is the sales pipeline
-SalesPipeline how is my sales pipeline
-SalesPipeline get me sales pipeline update
-SalesPipeline give me sales pipeline update
-SalesPipeline update me sales pipeline
-SalesPipeline for sales pipeline update
-SalesPipeline for sales pipeline update for {SalesQuarter} quarter
-SalesPipeline how is my sales pipeline for {SalesQuarter} quarter
-SalesPipeline how is my sales pipeline for the {SalesQuarter} quarter of year {SalesYear}
-SalesPipeline {SalesQuarter} quarter
-SalesPipeline {SalesQuarter} of year {SalesYear}
-SalesPipeline {SalesQuarter} quarter of year {SalesYear}
-SalesPipeline year {SalesYear}
-
-GetTopItems what are my best selling products
-GetTopItems what are my best selling items
-GetTopItems what are my top items
-GetTopItems what are my top {TopNo} items
-GetTopItems for top {TopNo} items
-GetTopItems show me top {TopNo} items
-GetTopItems get me top {TopNo} items
-GetTopItems give me top {TopNo} items
 GetTopItems Top {TopNo}
 GetTopItems Top {TopNo} items
