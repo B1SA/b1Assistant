@@ -1,0 +1,14 @@
+//Get Business Information
+//Alexa provides insights like Total Sales Amount, Gross Profit, Margin, Trends and general status
+
+[U]: How is my business going?
+
+OR
+
+[U]: to get me business information.
+
+OR
+
+[U]: update me business results.
+
+and other variations.
