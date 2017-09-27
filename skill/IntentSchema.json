@@ -1,46 +1,33 @@
 {
   "intents": [
     {
-      "slots": [
-        {
-          "name": "SalesQuarter",
-          "type": "SAP_QUARTERS"
-        },
-        {
-          "name": "SalesYear",
-          "type": "AMAZON.NUMBER"
-        }
-      ],
-      "intent": "SalesPipeline"
-    },
-    {
+      "intent": "GetTopItems",
       "slots": [
         {
           "name": "TopNo",
           "type": "AMAZON.NUMBER"
         }
-      ],
-      "intent": "GetTopItems"
+      ]
     },
     {
+      "intent": "GetSalesGroups",
       "slots": [
         {
           "name": "ItemGroup",
           "type": "SAP_GROUPS"
         }
-      ],
-      "intent": "GetSalesGroups"
+      ]
     },
     {
+      "intent": "SayHello",      
       "slots": [
         {
           "name": "FirstName",
           "type": "AMAZON.US_FIRST_NAME"
         }
-      ],
-      "intent": "SayHello"
-    },
+      ]    },
     {
+      "intent": "MakePurchase",      
       "slots": [
         {
           "name": "ItemName",
@@ -54,10 +41,10 @@
           "name": "ItemRecom",
           "type": "SAP_ITEMS"
         }
-      ],
-      "intent": "MakePurchase"
+      ]
     },
     {
+      "intent": "SalesInfo",      
       "slots": [
         {
           "name": "ItemGroup",
@@ -71,11 +58,25 @@
           "name": "SalesYear",
           "type": "AMAZON.NUMBER"
         }
-      ],
-      "intent": "SalesInfo"
+      ]    
     },
     {
       "intent": "SaleRecommend"
+    },
+    {
+      "intent": "BusinessInfo"
+    },
+    {
+      "intent": "SocialMediaInfo"
+    },
+    {
+      "intent": "ReadTweets",      
+      "slots": [
+        {
+          "name": "Sentiments",
+          "type": "SAP_SENTIMENTS"
+        }
+      ]
     },
     {
       "intent": "AMAZON.NoIntent"
@@ -88,21 +89,6 @@
     },
     {
       "intent": "AMAZON.StopIntent"
-    },
- {
-      "intent": "BusinessInfo"
-    },
-    {
-      "intent": "SocialMediaInfo"
-    },
-    {
-      "slots": [
-        {
-          "name": "Sentiments",
-          "type": "SAP_SENTIMENTS"
-        }
-      ],
-      "intent": "ReadTweets"
     }
   ]
 }
