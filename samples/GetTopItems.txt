@@ -1,0 +1,23 @@
+//Get Top # Items
+//Information about top selling items
+
+[U]: What are my best selling products?
+
+OR
+
+[U]: what are my best selling items?
+
+OR
+
+[U]: what are my top items
+
+
+[A]: How many top items?
+
+[U]: <Number> items
+
+OR
+
+[U]: <Number>
+
+
