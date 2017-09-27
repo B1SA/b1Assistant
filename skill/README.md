@@ -1,8 +1,6 @@
 # This files are NOT part of the HANA XS Application 
 The alexa skill b1Assistant.js has been moved from ./skill folder to ./skill/nodejs folder for sharing the same code between AWS Lambda function and stand alone alexa deloyment below.
 
-Update on 31 July 2017: the alexa skill b1Assistant.js has been moved from ./skill folder to ./skill/nodejs folder for sharing the same code between AWS Lambda function and stand alone alexa deloyment below.
-
 Apart from deployment with AWS Lambda function,  Now you also can deploy the alexa skill locally or cloud foundry as standalone nodejs app. Follow the steps below:
 
 ### Step 1: Deploy the standalone b1Assistant locally or on a cloud platform with node run-time. 
