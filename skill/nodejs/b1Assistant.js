@@ -1001,26 +1001,6 @@ function formatQuarter(input) {
 
 }
 
-function formatQuarter2(input) {
-
-    if (input == 'first' || input == '1st' || input == '01') {
-        return 'Q1';
-    }
-
-    if (input == 'second' || input == '2nd' || input == '02') {
-        return 'Q2';
-    }
-
-    if (input == 'third' || input == '3rd' || input == '03') {
-        return 'Q3';
-    }
-
-    if (input == 'fourth' || input == '4th' || input == '04') {
-        return 'Q4';
-    }
-
-}
-
 function stringQuarter(input) {
 
     if (input == '01' || input == 'Q1') {
@@ -1246,7 +1226,7 @@ function getWelcomeMessage() {
     var message = [];
 
     message[0] = "Welcome to B1 Assistant. How can I help?"
-    message[1] = "Hi, I am your B1 assistant. How can I Help you today?"
+    message[1] = "Hi, I am your B1 assistant. How can I help you today?"
     message[2] = "This is B1 assistant speaking. What is my command?"
     message[3] = "Hello, here is B1 assistant. Let me know what do you wish."
 
