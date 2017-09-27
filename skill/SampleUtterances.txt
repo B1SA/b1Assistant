@@ -31,20 +31,6 @@ BusinessInfo show me business result
 BusinessInfo show me business status
 BusinessInfo show me business update
 
-SalesPipeline how is the sales pipeline
-SalesPipeline how is my sales pipeline
-SalesPipeline get me sales pipeline update
-SalesPipeline give me sales pipeline update
-SalesPipeline update me sales pipeline
-SalesPipeline for sales pipeline update
-SalesPipeline for sales pipeline update for {SalesQuarter} quarter
-SalesPipeline how is my sales pipeline for {SalesQuarter} quarter
-SalesPipeline how is my sales pipeline for the {SalesQuarter} quarter of year {SalesYear}
-SalesPipeline {SalesQuarter} quarter
-SalesPipeline {SalesQuarter} of year {SalesYear}
-SalesPipeline {SalesQuarter} quarter of year {SalesYear}
-SalesPipeline year {SalesYear}
-
 GetTopItems what are my best selling products
 GetTopItems what are my best selling items
 GetTopItems what are my top items
@@ -132,6 +118,3 @@ ReadTweets Read me some {Sentiments} tweets
 ReadTweets for some {Sentiments} tweets about my product
 ReadTweets for some {Sentiments} tweets
 ReadTweets {Sentiments} tweet 
-
-GetTopItems Top {TopNo}
-GetTopItems Top {TopNo} items
