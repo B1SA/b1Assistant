@@ -170,7 +170,7 @@ function getWelcomeResponse(callback) {
 
     var sessionAttributes = {};
     var cardTitle = "Welcome";
-    var speechOutput = getWelcomeMessageAPJ();
+    var speechOutput = getWelcomeMessage();
 
     // If the user either does not reply to the welcome message or says something that is not
     // understood, they will be prompted again with this text.
@@ -207,8 +207,7 @@ function sayHello(intent, session, callback) {
     var shouldEndSession = true;
     var speechOutput = "";
 
-    speechOutput = "Oh my god! What was that party last night? " +
-        "I still feel the headache, even though I do not have a head."
+    speechOutput = "Hi there! I am the Be One Assistant. I am here to help you with S-A-P Business One! Just ask!"
 
     callback(sessionAttributes,
         buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
@@ -292,7 +291,7 @@ function getSocialMediaInfo(intent, session, callback) {
     var speechOutput = "";
 
     if (!SocialMediaIntegrationActive()){
-        speechOutput = "I am sorry, Social Media integration is not active on B1 Assistant"
+        speechOutput = "I am sorry, Social Media integration is not active on Be One Assistant"
         callback(sessionAttributes,
             buildSpeechletResponse(
                 intent.name, speechOutput,
@@ -1249,17 +1248,6 @@ function getWelcomeMessage() {
     message[0] = "Welcome to B1 Assistant. How can I help?"
     message[1] = "Hi, I am your B1 assistant. How can I Help you today?"
     message[2] = "This is B1 assistant speaking. What is my command?"
-    message[3] = "Hello, here is B1 assistant. Let me know what do you wish."
-
-    return message[getRandomInt(0, message.length - 1)];
-}
-
-function getWelcomeMessageAPJ() {
-    var message = [];
-
-    message[0] = "Namastay! This is B1 Assistant. How can I help?"
-    message[1] = "Knee how! I am your B1 assistant. How can I Help you today?"
-    message[2] = "Hola! This is B1 assistant speaking. What is my command?"
     message[3] = "Hello, here is B1 assistant. Let me know what do you wish."
 
     return message[getRandomInt(0, message.length - 1)];
