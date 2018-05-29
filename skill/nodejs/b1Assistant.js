@@ -164,7 +164,7 @@ function onSessionEnded(sessionEndedRequest, session) {
 // --------------- Functions that control the skill's behavior -----------------------
 function getWelcomeResponse(callback) {
     // If we wanted to initialize the session to have some attributes we could add those here.
-    if (null === g_currFinPeriod) {
+    if (SocialMediaIntegration && !g_currFinPeriod) {
         initB1PeriodByDate();
     }
 
