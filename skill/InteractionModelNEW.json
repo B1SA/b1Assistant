@@ -1,0 +1,458 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "be one",
+            "intents": [
+                {
+                    "name": "SalesPipeline",
+                    "slots": [
+                        {
+                            "name": "SalesQuarter",
+                            "type": "SAP_QUARTERS"
+                        },
+                        {
+                            "name": "SalesYear",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": []
+                },
+                {
+                    "name": "GetTopItems",
+                    "slots": [
+                        {
+                            "name": "TopNo",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "what are my best selling products",
+                        "what are my best selling items",
+                        "what are my top items",
+                        "what are my top {TopNo} items",
+                        "for top {TopNo} items",
+                        "show me top {TopNo} items",
+                        "get me top {TopNo} items",
+                        "give me top {TopNo} items",
+                        "Top {TopNo}",
+                        "Top {TopNo} items"
+                    ]
+                },
+                {
+                    "name": "GetSalesGroups",
+                    "slots": [
+                        {
+                            "name": "ItemGroup",
+                            "type": "SAP_GROUPS"
+                        }
+                    ],
+                    "samples": [
+                        "how are the sales for {ItemGroup}",
+                        "show me the numbers for {ItemGroup}"
+                    ]
+                },
+                {
+                    "name": "SayHello",
+                    "slots": [
+                        {
+                            "name": "FirstName",
+                            "type": "AMAZON.US_FIRST_NAME"
+                        }
+                    ],
+                    "samples": [
+                        "Say hi to {FirstName}",
+                        "Salute our friend {FirstName}"
+                    ]
+                },
+                {
+                    "name": "MakePurchase",
+                    "slots": [
+                        {
+                            "name": "ItemName",
+                            "type": "SAP_ITEMS"
+                        },
+                        {
+                            "name": "Quantity",
+                            "type": "AMAZON.NUMBER"
+                        },
+                        {
+                            "name": "ItemRecom",
+                            "type": "SAP_ITEMS"
+                        }
+                    ],
+                    "samples": [
+                        "I need office supplies",
+                        "get me office supplies",
+                        "buy me office supplies",
+                        "for office supplies",
+                        "I need to buy things",
+                        "I need to place an order",
+                        "{ItemName}",
+                        "buy me {ItemName}",
+                        "buy me {Quantity} unities of {ItemName}",
+                        "buy me {Quantity} unity of {ItemName}",
+                        "buy me {Quantity} packs of {ItemName}",
+                        "buy me {Quantity} pack of {ItemName}",
+                        "{Quantity} unities",
+                        "{Quantity} unity",
+                        "{Quantity} pack",
+                        "{Quantity} packs",
+                        "get me also {ItemRecom}",
+                        "{ItemRecom} will be nice",
+                        "you can add {ItemRecom} to this order",
+                        "{ItemRecom} and i am good"
+                    ]
+                },
+                {
+                    "name": "SalesInfo",
+                    "slots": [
+                        {
+                            "name": "ItemGroup",
+                            "type": "SAP_GROUPS"
+                        },
+                        {
+                            "name": "SalesQuarter",
+                            "type": "SAP_QUARTERS"
+                        },
+                        {
+                            "name": "SalesYear",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "give me sales info",
+                        "give me sales information",
+                        "give me sales reports",
+                        "give me the sales reports",
+                        "give me sales numbers",
+                        "give me the sales numbers",
+                        "get me sales info",
+                        "get me sales information",
+                        "get me sales reports",
+                        "get me the sales reports",
+                        "get me sales numbers",
+                        "get me the sales numbers",
+                        "I need sales info",
+                        "I need sales report",
+                        "I need the sales report",
+                        "I need sales numbers",
+                        "show me the sales report",
+                        "show me sales info",
+                        "show me sales information",
+                        "show me sales reports",
+                        "show me sales numbers",
+                        "{ItemGroup}",
+                        "{SalesQuarter}",
+                        "{SalesQuarter} of {SalesYear}",
+                        "{SalesQuarter} quarter of {SalesYear}",
+                        "{SalesYear}"
+                    ]
+                },
+                {
+                    "name": "SaleRecommend",
+                    "slots": [],
+                    "samples": [
+                        "What do you have for me",
+                        "Do you got any item recommendation",
+                        "Do you got any product recommendation",
+                        "Do you got any purchase recommendation",
+                        "what do you got for me"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NoIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.YesIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "BusinessInfo",
+                    "slots": [],
+                    "samples": [
+                        "how is business",
+                        "how is business going",
+                        "how is business doing",
+                        "how is my business",
+                        "how is my business going",
+                        "how is my business doing",
+                        "get me business info",
+                        "get me business information",
+                        "get me business result",
+                        "get me business update",
+                        "give me business info",
+                        "give me business information",
+                        "give me business result",
+                        "give me business update",
+                        "give me business status",
+                        "update me business info",
+                        "update me business information",
+                        "update me business result",
+                        "update me business status",
+                        "tell me business info",
+                        "tell me business information",
+                        "tell me business result",
+                        "tell me business status",
+                        "tell me business update",
+                        "show me business info",
+                        "show me business information",
+                        "show me business result",
+                        "show me business status",
+                        "show me business update"
+                    ]
+                },
+                {
+                    "name": "SocialMediaInfo",
+                    "slots": [],
+                    "samples": [
+                        "how is my product on social media",
+                        "how is my product doing on social media",
+                        "how is my product going on social media",
+                        "what is up on social media",
+                        "how is my product on twitter",
+                        "how is my product doing on twitter",
+                        "how is my product going on twitter",
+                        "what is up on twitter",
+                        "get me social media update",
+                        "give me social media update",
+                        "for social media update"
+                    ]
+                },
+                {
+                    "name": "ReadTweets",
+                    "slots": [
+                        {
+                            "name": "Sentiments",
+                            "type": "SAP_SENTIMENTS"
+                        }
+                    ],
+                    "samples": [
+                        "Read me some tweets",
+                        "Read me some tweets about my product",
+                        "Read me some {Sentiments} tweets about my product",
+                        "Read me some {Sentiments} tweets",
+                        "for some {Sentiments} tweets about my product",
+                        "for some {Sentiments} tweets",
+                        "{Sentiments} tweet"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "SAP_GROUPS",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "general items"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "pc"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "jet printers"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "laser printers"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "accessories"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "servers"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "storage"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "electronics"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "computer parts"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "SAP_ITEMS",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "printer paper"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "paper"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "printer ink"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "ink"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "flash drive"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "usb drive"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "usb"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "drive"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "SAP_QUARTERS",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "first"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "second"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "third"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "fourth"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Q1"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Q2"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Q3"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Q4"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "this"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "current"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "last"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "SAP_SENTIMENTS",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "Weak Positive"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Strong Positive"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Positive"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Neutral"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Negative"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Weak Negative"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Strong Negative"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Major Problem"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Minor Problem"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
