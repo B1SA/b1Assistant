@@ -15,8 +15,8 @@
 // Route the incoming request based on type (LaunchRequest, IntentRequest,
 // etc.) The JSON body of the request is provided in the event parameter.
 
-var g_hdbServer = '<YOUR HANA HOST or IP Address HERE!>';
-var g_hdbPort  = 8000; // Http(8000) or Https(4300)
+var g_hdbServer = process.env.HDBHOST || '<YOUR HANA HOST or IP Address HERE!>';
+var g_hdbPort  = process.env.HDBPORT || 8000; // Http(8000) or Https(4300)
 var g_hdbService = '/b1Assistant/services';
 var g_currFinPeriod = null;
 var SocialMediaIntegration = false // Set this to true in case Twitter Integration is deployed
