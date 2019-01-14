@@ -11,6 +11,7 @@ $ cd ./skill/nodejs
 $ cf push --random-route
 $ cf set-env B1Assistant HDBHOST <YOUR HANA SERVER IP>
 $ cf set-env B1Assistant HDBPORT <YOUR HANA SERVER PORT>
+$ cf restart B1Assistant
 ```
  - To deploy locally, run the command below:
 ```sh
