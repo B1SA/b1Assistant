@@ -1,7 +1,11 @@
-# B1 Assistant
-## SAP Business One Alexa Skill for Amazon Echo
-Detailed how to - http://bit.ly/2dGJv9d
-Complete demo - https://www.youtube.com/watch?v=WaXXYcMfgSs
+# B1 Assistant [DEPREACTED]
+
+Thank you for your interest in the B1 Assistant. The original prototype has been modified a lot since its inception. The goal was to make it simpler to deploy so more and more partners could use it. The result, is the [B1 Assistant Lite](https://github.com/SAP-samples/b1-assistant-lite)  which can be deployed in minutes. It has a smaller functionality scope but completely serves its purpose: to enable you in how the integration works and how to work with Alexa. The whole deployment.
+
+The instructions below **are not maintained and haven't been tested in a log time**. Please consider the new version mentioned above.
+
+___
+
 
 ## Prerequisites
 - SAP Business One on HANA 9.2 PL04 (or higher)
